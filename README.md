@@ -1,8 +1,22 @@
-# React + Vite
+# Welcome to `Your Cinema`
+## an open-source project based on recommending movies.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## To work on this project:
+### 1. fork the repository
+### 2. On your terminal, clone the project using:
+`git clone git@github.com:{your username}/YourCinema.git`
 
-Currently, two official plugins are available:
+### 3. Go to the file and install the necessary packages using:
+### Yarn: `yarn`
+### NPM: ```npm install```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 4. Make changes and push it to your cloned repository
+### 5. Make a pull request
+
+---
+
+# NOTE: ONLY THE NECESSARY CHANGES WOULD BE ACCEPTED!
+
+---
+
+## Enjoy contributing towards the project and welcome to the journey.
