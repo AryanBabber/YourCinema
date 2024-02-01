@@ -1,4 +1,4 @@
-# Welcome to `Your Cinema`
+# Welcome to `Cinemaze`
 ## an open-source project based on recommending movies.
 
 ## To work on this project:
@@ -12,6 +12,8 @@
 
 ### 4. Make changes and push it to your cloned repository
 ### 5. Make a pull request
+
+<!-- ### If you face a firebase error, make a `firebaseConfig.js` file in `utils/firebase` and enter your config files which you can get via -->
 
 ---
 
