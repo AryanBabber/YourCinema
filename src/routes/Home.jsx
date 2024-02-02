@@ -1,9 +1,13 @@
-// import React from 'react'
+import { Fragment } from 'react'
+import { Outlet } from "react-router";
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <Fragment>
+      <Outlet />
+      <div className="text-4xl"> Home </div>
+    </Fragment>
   )
 }
 
-export default Home
+export default Home;
