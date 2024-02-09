@@ -2,6 +2,8 @@
 import Navigation from "./routes/Navigation";
 import Home from "./routes/Home";
 import SignUp from "./routes/SignUp";
+import SignIn from "./routes/SignIn";
+import Bookmarks from "./routes/Bookmarks";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
@@ -20,6 +22,14 @@ const App = () => {
 						path="/sign-up"
 						element={<SignUp />}
 					/>
+          <Route
+						path="/sign-in"
+						element={<SignIn />}
+					/>
+          <Route 
+            path="/bookmarks"
+            element={<Bookmarks />}
+          />
 				</Route>
 			</Routes>
 		</div>

@@ -1,23 +1,11 @@
 // import React from 'react'
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+import SignUpForm from "../components/SignUpForm"; "../components/SignUpForm"
 
 const SignUp = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const handleSignUp = () => {
-    // Add your sign up logic here
-  }
-
   return (
-    <div>
-      <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-      <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password" />
-      <button onClick={handleSignUp}>Sign Up</button>
+    <div className="flex justify-center items-center w-[900px] border-black border-2 relative left-[50%] -translate-x-[50%] mt-5 p-10 rounded-xl drop-shadow-xl shadow-2xl shadow-slate-400">
+      <SignUpForm />
     </div>
   );
 }

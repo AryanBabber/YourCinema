@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { Outlet } from "react-router";
 import CineLogo from "../assets/logo.svg?react";
 import { Link } from "react-router-dom";
-import {BookmarkSquareIcon} from "@heroicons/react/24/outline"
+import { BookmarkSquareIcon } from "@heroicons/react/24/outline";
 
 const Navigation = () => {
 	return (
@@ -22,15 +22,20 @@ const Navigation = () => {
 					</input>
 
 					{/* FAVORITES SECTION */}
-					<BookmarkSquareIcon className="w-8" />
+					<Link to="bookmarks">
+						<BookmarkSquareIcon className="w-8" />
+					</Link>
 
 					{/* if signed out: */}
 					<div className="flex gap-1 items-center justify-center">
-						<div className="w-[150px] h-[50px] flex items-center justify-center">
+						<Link to="/sign-in" className="w-[150px] h-[50px] flex items-center justify-center">
 							<h2 className="">EXISTING USER?</h2>
-						</div>
+						</Link>
 						{/* <h2 className="w-[100px] h-[50px] bg-white rounded-[20px]"></h2> */}
-						<Link to="/sign-up" className="w-[100px] h-[50px] bg-[#3f3f3f] rounded-[20px] flex items-center justify-center">
+						<Link
+							to="/sign-up"
+							className="w-[100px] h-[50px] bg-[#3f3f3f] rounded-[20px] flex items-center justify-center"
+						>
 							<h2 className="text-center text-white">SIGN UP</h2>
 						</Link>
 					</div>
