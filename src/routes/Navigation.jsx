@@ -28,7 +28,10 @@ const Navigation = () => {
 
 					{/* if signed out: */}
 					<div className="flex gap-1 items-center justify-center">
-						<Link to="/sign-in" className="w-[150px] h-[50px] flex items-center justify-center">
+						<Link
+							to="/sign-in"
+							className="w-[150px] h-[50px] flex items-center justify-center"
+						>
 							<h2 className="">EXISTING USER?</h2>
 						</Link>
 						{/* <h2 className="w-[100px] h-[50px] bg-white rounded-[20px]"></h2> */}

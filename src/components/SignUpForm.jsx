@@ -19,19 +19,19 @@ const SignUpForm = () => {
 	const { displayName, email, password, confirmPassword } = formFields;
 	// const dispatch =
 	const handleSubmit = async (e) => {
-    e.preventDefault();
-    if(password !== confirmPassword) {
-      alert("Passwords do not match")
-    }
+		e.preventDefault();
+		if (password !== confirmPassword) {
+			alert("Passwords do not match");
+		}
 
-	setFormFields(defaultFields);
-    // console.log(defaultFields)
-  };
+		setFormFields(defaultFields);
+		// console.log(defaultFields)
+	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormFields({ ...formFields, [name]: value });
-    // console.log(formFields)
+		// console.log(formFields)
 	};
 
 	return (
@@ -72,8 +72,8 @@ const SignUpForm = () => {
 					value={confirmPassword}
 					required
 				/>
-				
-        <Button type="submit">Sign Up</Button>
+
+				<Button type="submit">Sign Up</Button>
 			</form>
 		</div>
 	);
