@@ -15,15 +15,16 @@ const Navigation = () => {
 				</Link>
 				<div className="w-[50%] h-full flex items-center justify-around">
 					<input
-						className="w-[300px] rounded-[20px] bg-slate-300 h-[45px] p-2 border-black border-2 outline-none"
+						className="w-[300px] rounded-[20px] bg-slate-300 h-[45px] p-4 border-black border-2 outline-none"
 						placeholder="Search movies"
 					>
 						{/* Search bar */}
 					</input>
 
 					{/* FAVORITES SECTION */}
-					<Link to="bookmarks">
+					<Link to="bookmarks" className="flex gap-3 items-center">
 						<BookmarkSquareIcon className="w-8" />
+						<span className="text-lg">Watchlist</span>
 					</Link>
 
 					{/* if signed out: */}
