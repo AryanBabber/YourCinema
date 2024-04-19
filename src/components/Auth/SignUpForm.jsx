@@ -36,7 +36,7 @@ const SignUpForm = () => {
 
 	return (
 		<div className="flex flex-col w-[500px]">
-			<h1 className="text-center text-2xl">Create a new Account</h1>
+			<h1 className="text-center text-2xl">SIGN UP</h1>
 			<form onSubmit={handleSubmit}>
 				<FormInput
 					label="Display Name"

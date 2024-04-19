@@ -22,6 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.env
+
 
 # specific files to be ignored
 firebaseConfig.js
+movies.keys.js

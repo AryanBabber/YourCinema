@@ -5,6 +5,7 @@ import SignUp from "./routes/SignUp";
 import SignIn from "./routes/SignIn";
 import Bookmarks from "./routes/Bookmarks";
 import { Route, Routes } from "react-router-dom";
+import TrendingMovies from "./routes/TrendingMovies";
 
 const App = () => {
 	return (
@@ -22,14 +23,18 @@ const App = () => {
 						path="/sign-up"
 						element={<SignUp />}
 					/>
-          <Route
+					<Route
 						path="/sign-in"
 						element={<SignIn />}
 					/>
-          <Route 
-            path="/bookmarks"
-            element={<Bookmarks />}
-          />
+					<Route
+						path="/bookmarks"
+						element={<Bookmarks />}
+					/>
+					<Route 
+						path="/trending-movies"
+						element={<TrendingMovies />}
+					/>
 				</Route>
 			</Routes>
 		</div>
