@@ -56,13 +56,18 @@ const CarouselImage = ({ slides }) => {
 		setCurrentIndex(newIndex);
 	};
 	const goToNext = () => {
-		const isLastSlide = currentIndex === slides.length - 1;
+		const isLastSlide = currentIndex === (slides && slides.length - 1);
 		const newIndex = isLastSlide ? 0 : currentIndex + 1;
 		setCurrentIndex(newIndex);
 	};
 	const goToSlide = (slideIndex) => {
 		setCurrentIndex(slideIndex);
 	};
+
+	setTimeout(() => {
+		goToNext();
+	}, 3000);
+
 	const slideStylesWidthBackground = {
 		...slideStyles,
 		backgroundImage:
@@ -122,10 +127,12 @@ const CarouselImage = ({ slides }) => {
 					</h2>
 					<div className="w-[200px] h-full bg-black absolute bottom-0 right-0 flex justify-center items-center rounded-br-xl">
 						<p
-							className="text-2xl text-white h-[100px] w-[100px] rounded-full flex justify-center items-center"
+							className="text-xl text-white h-[100px] w-[100px] rounded-full flex justify-center items-center text-center"
 							style={{ backgroundColor: color }}
 						>
-							{slides && rating}%
+							{slides && rating != 0
+								? rating + "%"
+								: "Not released"}
 						</p>
 					</div>
 				</div>

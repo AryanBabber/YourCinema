@@ -2,14 +2,15 @@ import { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router";
 import Carousel from "../components/Carousel/Carousel";
-import { API_URI, IMGPATH, getMovie } from "../utils/movies/movies.utils";
+import { API_URI, IMGPATH, PAGE_NUMBER, getMoviesByGenre } from "../utils/movies/movies.utils";
 import Loader from "../components/Loader";
 import { genres } from "../utils/movies/movies.genres";
 
 const Home = () => {
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(null);
-	const [name, setName] = useState("barfi!");
+	const [name, setName] = useState("");
+	const [page, setPage] = useState(PAGE_NUMBER)
 	let isSignedIn = false;
 	useEffect(() => {
 		const fetchURI = async () => {
@@ -30,7 +31,8 @@ const Home = () => {
 	}, []);
 
 	console.log(data);
-
+	console.log(API_URI)
+	console.log(getMoviesByGenre())
 	return (
 		<Fragment>
 			{loading ? (
