@@ -1,79 +1,98 @@
 // using genre list to get movies based on genre ID or to name them
 export const genres = [
 	{
-		id: 28,
+		genreId: 28,
 		name: "Action",
+		route: "genres/action",
 	},
 	{
-		id: 12,
+		genreId: 12,
 		name: "Adventure",
+		route: "genres/adventure",
 	},
 	{
-		id: 16,
+		genreId: 16,
 		name: "Animation",
+		route: "genres/animation",
 	},
 	{
-		id: 35,
+		genreId: 35,
 		name: "Comedy",
+		route: "genres/comedy",
 	},
 	{
-		id: 80,
+		genreId: 80,
 		name: "Crime",
+		route: "genres/crime",
 	},
 	{
-		id: 99,
+		genreId: 99,
 		name: "Documentary",
+		route: "genres/documentary",
 	},
 	{
-		id: 18,
+		genreId: 18,
 		name: "Drama",
+		route: "genres/drama",
 	},
 	{
-		id: 10751,
+		genreId: 10751,
 		name: "Family",
+		route: "genres/family",
 	},
 	{
-		id: 14,
+		genreId: 14,
 		name: "Fantasy",
+		route: "genres/fantasy",
 	},
 	{
-		id: 36,
+		genreId: 36,
 		name: "History",
+		route: "genres/history",
 	},
 	{
-		id: 27,
+		genreId: 27,
 		name: "Horror",
+		route: "genres/horror",
 	},
 	{
-		id: 10402,
+		genreId: 10402,
 		name: "Music",
+		route: "genres/music",
 	},
 	{
-		id: 9648,
+		genreId: 9648,
 		name: "Mystery",
+		route: "genres/mystery",
 	},
 	{
-		id: 10749,
+		genreId: 10749,
 		name: "Romance",
+		route: "genres/romance",
 	},
 	{
-		id: 878,
+		genreId: 878,
 		name: "Science Fiction",
+		route: "genres/science-fiction",
 	},
 	{
-		id: 10770,
+		genreId: 10770,
 		name: "TV Movie",
+		route: "genres/tv-movie",
 	},
 	{
-		id: 53,
+		genreId: 53,
 		name: "Thriller",
+		route: "genres/thriller",
 	},
 	{
-		id: 10752,
+		genreId: 10752,
 		name: "War",
+		route: "genres/war",
 	},
 	{
-		id: 37,
+		genreId: 37,
 		name: "Western",
+		route: "genres/western",
 	},
 ];

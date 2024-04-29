@@ -21,14 +21,18 @@ export const setData = (data) => {
 };
 
 // check the genres file within this directory for genreID
-export const getMoviesByGenre = (genreId) => {
+export const getMoviesByGenre = async (genreId, maxLen = 20) => {
 	let arr = [];
-	while(arr.length < 20) {
-		fetch(API_URI).then(res => res.json()).then(res => arr.push(res.filter(v => v.genre_ids.includes(genreId))));
+	// let pageNo = PAGE_NUMBER;
+	while (arr.length < maxLen) {
+		const res = await fetch(API_URI);
+		const data = await res.json();
+
+		arr.push(...data.results.filter((movie) => movie.genre_ids.includes(genreId)));
 		PAGE_NUMBER++;
 	}
 
-	console.log(arr);
+	return arr;
 };
 
 // export const getMovie = (data) => {
@@ -61,6 +65,7 @@ export const getMoviesByGenre = (genreId) => {
 // };
 
 export const getGenre = (id) => {
-	let gID = genres.filter((genre) => genre.id === id)[0];
+	let gID = genres.filter((genre) => genre.genreId === id)[0];
 	return gID.name;
 };
+

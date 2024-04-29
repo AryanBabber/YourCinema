@@ -3,8 +3,8 @@ import React from "react";
 const Loader = () => {
 	const styles = {
 		spinner: {
-			width: "60px",
-			height: "60px",
+			width: "160px",
+			height: "160px",
 			border: "5px solid #f3f3f3",
 			borderRadius: "50%",
 			borderLeftColor: "#3498db",
@@ -16,7 +16,11 @@ const Loader = () => {
 		},
 	};
 
-	return <div style={styles.spinner}></div>;
+	return (
+		<div className="flex w-screen h-screen justify-center items-center">
+			<div style={styles.spinner}></div>
+		</div>
+	);
 };
 
 export default Loader;

@@ -2,16 +2,23 @@ import { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router";
 import Carousel from "../components/Carousel/Carousel";
-import { API_URI, IMGPATH, PAGE_NUMBER, getMoviesByGenre } from "../utils/movies/movies.utils";
+import {
+	API_URI,
+	IMGPATH,
+	PAGE_NUMBER,
+	getMoviesByGenre,
+} from "../utils/movies/movies.utils";
 import Loader from "../components/Loader";
 import { genres } from "../utils/movies/movies.genres";
+import MovieList from "../components/MovieList";
 
 const Home = () => {
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(null);
-	const [name, setName] = useState("");
-	const [page, setPage] = useState(PAGE_NUMBER)
+	const [page, setPage] = useState(PAGE_NUMBER);
 	let isSignedIn = false;
+	// const navigate = useNavigate()
+	let randomNum = Math.floor(Math.random() * 17);
 	useEffect(() => {
 		const fetchURI = async () => {
 			setLoading(true);
@@ -31,8 +38,9 @@ const Home = () => {
 	}, []);
 
 	console.log(data);
-	console.log(API_URI)
-	console.log(getMoviesByGenre())
+	// console.log(API_URI);
+	// console.log(getMoviesByGenre(16).then(v => console.log(v)).catch(e => console.log(e)));
+	console.log(genres);
 	return (
 		<Fragment>
 			{loading ? (
@@ -77,7 +85,7 @@ const Home = () => {
 								{data &&
 									data.results.slice(0, 5).map((v, i) => (
 										<div
-											className="border-2 border-slate-500 w-[400px] h-[500px] rounded-xl"
+											className="border-2 border-slate-500 w-[350px] h-[500px] rounded-xl"
 											key={i}
 										>
 											<img
@@ -89,40 +97,14 @@ const Home = () => {
 									))}
 							</div>
 						</div>
-						<div className="ml-5">
-							<h2 className="text-xl font-bold">Genre</h2>
-							<ul className="flex gap-5">
-								<li className="w-[300px] h-[80px] border-2 border-slate-500">
-									Movie1
-								</li>
-								<li className="w-[300px] h-[80px] border-2 border-slate-500">
-									Movie2
-								</li>
-								<li className="w-[300px] h-[80px] border-2 border-slate-500">
-									Movie3
-								</li>
-								<li className="w-[300px] h-[80px] border-2 border-slate-500">
-									Movie4
-								</li>
-							</ul>
-						</div>
-						<div className="ml-5">
-							<h2 className="text-xl font-bold">Genre</h2>
-							<ul className="flex gap-5 mb-7">
-								<li className="w-[300px] h-[80px] border-2 border-slate-500">
-									Movie1
-								</li>
-								<li className="w-[300px] h-[80px] border-2 border-slate-500">
-									Movie2
-								</li>
-								<li className="w-[300px] h-[80px] border-2 border-slate-500">
-									Movie3
-								</li>
-								<li className="w-[300px] h-[80px] border-2 border-slate-500">
-									Movie4
-								</li>
-							</ul>
-						</div>
+						{genres
+							.slice(randomNum, randomNum + 3)
+							.map((genre, index) => (
+								<MovieList
+									key={index}
+									{...genre}
+								/>
+							))}
 					</div>
 				</div>
 			)}
