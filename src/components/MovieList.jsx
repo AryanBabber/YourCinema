@@ -24,17 +24,17 @@ const MovieList = ({ genreId, name, route }) => {
 	const handleNavigate = () => navigate(route);
 
 	return (
-		<div className="ml-5">
+		<div className="">
 			<div
-				className="text-xl font-bold"
+				className="text-xl font-bold cursor-pointer"
 				onClick={handleNavigate}
 			>
 				Top {name} Movies 〉
 			</div>
-			<div className="flex gap-5 flex-nowrap">
+			<div className="flex gap-5 overflow-hidden">
 				{movieList.slice(0, 5).map((movie, idx) => (
 					<div
-						className="border-2 border-slate-500 w-[350px] h-[500px] rounded-xl"
+						className="border-2 border-slate-500 min-w-[320px] w-[320px] h-[500px] rounded-xl"
 						key={idx}
 					>
 						<img
@@ -44,9 +44,6 @@ const MovieList = ({ genreId, name, route }) => {
 						/>
 					</div>
 				))}
-				{/* <div className="w-[300px] h-[80px] border-2 border-slate-500">
-					Movie1
-				</div> */}
 			</div>
 		</div>
 	);

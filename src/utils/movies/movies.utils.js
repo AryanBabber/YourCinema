@@ -11,61 +11,99 @@ export const IMGPATH = "https://image.tmdb.org/t/p/w1280";
 // to get upcoming movies
 export const UPCOMING_URI = `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&api_key=${API_KEY}`;
 console.log(UPCOMING_URI);
-export let movieData = [];
-export const getData = () => {
-	return movieData;
-};
-
-export const setData = (data) => {
-	movieData = data;
-};
 
 // check the genres file within this directory for genreID
 export const getMoviesByGenre = async (genreId, maxLen = 20) => {
 	let arr = [];
+	let seen = new Set();
 	// let pageNo = PAGE_NUMBER;
-	while (arr.length < maxLen) {
-		const res = await fetch(API_URI);
-		const data = await res.json();
+	// while (arr.length <= maxLen) {
+	// 	const res = await fetch(API_URI);
+	// 	const data = await res.json();
 
-		arr.push(...data.results.filter((movie) => movie.genre_ids.includes(genreId)));
-		PAGE_NUMBER++;
+	// 	// data.results.map((movie) => {
+	// 	// 	if (movie.genre_ids.includes(genreId) && !seen.has(movie.id)) {
+	// 	// 		arr.push(movie);
+	// 	// 		console.log(arr)
+	// 	// 		seen.add(movie.id);
+	// 	// 	}
+	// 	// });
+
+	// 	for (const movie of data.results) {
+	// 		if (movie.genre_ids.includes(genreId) && !seen.has(movie.id)) {
+	// 			arr.push(movie);
+	// 			seen.add(movie.id); // Add movie ID to the Set
+	// 		}
+	// 	}
+
+	// 	PAGE_NUMBER++;
+	// }
+	let iterAPI = API_URI.split("&page")[0];
+	for (let page = 1; arr.length < maxLen; page++) {
+		const response = await fetch(`${iterAPI}&page=${page}`);
+		const data = await response.json();
+
+		for (const movie of data.results) {
+			if (movie.genre_ids.includes(genreId) && !seen.has(movie.id)) {
+				arr.push(movie);
+				seen.add(movie.id);
+			}
+		}
 	}
 
+	console.log(arr);
 	return arr;
 };
-
-// export const getMovie = (data) => {
-// 	const dataFiltering = /tt\d{6,}/;
-// 	return !dataFiltering.test(data)
-// 		? getMovieByName(data)
-// 		: getMovieByID(data);
-// };
-
-// const getMovieByName = (name) => {
-// 	try {
-// 		// inputData = name;
-// 		API_URI += `t=${name}`;
-// 	} catch (error) {
-// 		console.log(`Movie not found. Error: ${error}`);
-// 	}
-
-// 	return API_URI;
-// };
-
-// const getMovieByID = (id) => {
-// 	try {
-// 		// inputData = id;
-// 		API_URI += `i=${id}`;
-// 	} catch (error) {
-// 		console.log(`Movie not found. Error: ${error}`);
-// 	}
-
-// 	return API_URI;
-// };
 
 export const getGenre = (id) => {
 	let gID = genres.filter((genre) => genre.genreId === id)[0];
 	return gID.name;
 };
 
+export const releaseDateFormat = (releaseDate) => {
+	let releaseMonth = +releaseDate.split("-")[1];
+	let month = "";
+	switch (releaseMonth) {
+		case 1:
+			month = "Jan";
+			break;
+		case 2:
+			month = "Feb";
+			break;
+		case 3:
+			month = "Mar";
+			break;
+		case 4:
+			month = "Apr";
+			break;
+		case 5:
+			month = "May";
+			break;
+		case 6:
+			month = "Jun";
+			break;
+		case 7:
+			month = "Jul";
+			break;
+		case 8:
+			month = "Aug";
+			break;
+		case 9:
+			month = "Sep";
+			break;
+		case 10:
+			month = "Oct";
+			break;
+		case 11:
+			month = "Nov";
+			break;
+		case 12:
+			month = "Dec";
+			break;
+	}
+
+	let day = releaseDate.split("-")[2];
+	let year = releaseDate.split("-")[0];
+
+	return `${month} ${day}, ${year}`;
+};

@@ -4,8 +4,10 @@ import Home from "./routes/Home";
 import SignUp from "./routes/SignUp";
 import SignIn from "./routes/SignIn";
 import Bookmarks from "./routes/Bookmarks";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Router } from "react-router-dom";
 import TrendingMovies from "./routes/TrendingMovies";
+import { genres } from "./utils/movies/movies.genres";
+import MovieGenre from "./routes/MovieGenre";
 
 const App = () => {
 	return (
@@ -31,10 +33,22 @@ const App = () => {
 						path="/bookmarks"
 						element={<Bookmarks />}
 					/>
-					<Route 
+					<Route
 						path="/trending-movies"
 						element={<TrendingMovies />}
 					/>
+					{genres.map(
+						(genre) =>
+							genre && (
+								<Route
+									key={genre.genreId}
+									path={`/${genre.route}`}
+									element={
+										<MovieGenre {...genre} />
+									}
+								/>
+							)
+					)}
 				</Route>
 			</Routes>
 		</div>

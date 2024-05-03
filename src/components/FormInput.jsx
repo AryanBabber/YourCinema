@@ -1,41 +1,72 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
-// eslint-disable-next-line react/prop-types
-const FormInput = ({ label, ...props }) => {
-	const [inputValue, setInputValue] = useState("");
-	const [shrink, setShrink] = useState(false);
+const FormInput = ({
+	label,
+	type = "text", // Default input type
+	errorMessage, // Optional error message to display
+	validationFn, // Function for single-argument validation
+	compareFn, // Function for two-argument validation (e.g., confirm password)
+	...props // Spread remaining props for input element
+}) => {
+	const [isFocused, setIsFocused] = useState(false);
+	const [isValid, setIsValid] = useState(true); // Assume valid initially
 
-	const handleInputValue = (e) => {
-		setInputValue(e.target.value);
-		// setShrink(inputValue > 0)
-		// if(inputValue.length > 0) {
-		// }
+	const inputRef = useRef(null);
+
+	const handleFocus = () => {
+		setIsFocused(true);
+		setIsValid(true); // Reset validity on focus
 	};
 
+	const handleBlur = () => {
+		if (isFocused) {
+			setIsFocused(false);
+			if (compareFn) {
+				const additionalValue = props.confirmPassword || ""; // Assuming confirmPassword prop for compareFn
+				setIsValid(compareFn(props.value, additionalValue));
+			} else if (validationFn) {
+				setIsValid(validationFn(props.value));
+			} else {
+				// Handle cases where no validation function is provided (optional)
+			}
 
+			console.log(props.value);
+		}
+	};
 
-	// console.log(inputValue)
+	const handleChange = (event) => {
+		props.onChange(event); // Pass through onChange handler from props
+	};
+
+	const inputClasses = `
+    bg-gray-100 text-gray-500 text-lg block w-full border-none rounded-xl border-b-[1px] p-2 focus:outline-none
+    ${!isValid && isFocused ? "border-red-500" : "border-gray-700"}
+  `;
+
 	return (
-		<div className="relative my-[45px] mx-0">
+		<div
+			className={`relative my-[45px] mx-0 border-2 rounded-xl ${inputClasses}`}
+		>
 			<input
-				className="bg-none bg-gray-100 text-gray-500 text-lg py-[10px] pr-[10px] pl-[5px] block w-full border-none rounded-none border-b-[1px] border-gray-700 my-6 focus:outline-none"
+				ref={inputRef}
+				className={inputClasses}
+				type={type}
 				{...props}
+				onChange={handleChange}
+				onFocus={handleFocus}
+				onBlur={handleBlur}
 			/>
-			{label && (
-				<label
-					className={`text-gray-600 text-base absolute pointer-events-none left-1 top-2 transition-all ease duration-300 ${
-						props.value.length
-							? "top-[-14px] text-xs text-black"
-							: ""
-					}`}
-					// value={inputValue}
-					// onChange={handleInputValue}
-					// type="text"
-				>
-					{label}
-				</label>
+			<label
+				className={`text-gray-600 text-base absolute pointer-events-none left-2 top-2 transition-all ease duration-300 ${
+					props.value.length || isFocused
+						? "top-[-14px] text-xs text-black"
+						: ""
+				}`}
+			>
+				{label}
+			</label>
+			{errorMessage && !isValid && (
+				<p className="text-red-500 text-sm mt-2">{errorMessage}</p>
 			)}
 		</div>
 	);

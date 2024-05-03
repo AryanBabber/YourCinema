@@ -1,10 +1,14 @@
-/* eslint-disable no-unused-vars */
-// import React from 'react'
-
 import { useState } from "react";
 
-import FormInput from "../FormInput";
+import FormInput from "../FormInput"; // Updated FormInput
 import Button from "../Button";
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
+import {
+	checkEmail,
+	checkPassword,
+	checkUsername,
+	checkConfirmPassword,
+} from "../../utils/auth/user.parameters";
 
 const defaultFields = {
 	displayName: "",
@@ -15,24 +19,45 @@ const defaultFields = {
 
 const SignUpForm = () => {
 	const [formFields, setFormFields] = useState(defaultFields);
-	// const [passwordStrength, setPasswordStrength] = useState("");
 	const { displayName, email, password, confirmPassword } = formFields;
-	// const dispatch =
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+
+	const resetFormFields = () => setFormFields(defaultFields);
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+
 		if (password !== confirmPassword) {
-			alert("Passwords do not match");
+			alert("passwords do not match");
+			return;
 		}
 
-		setFormFields(defaultFields);
-		// console.log(defaultFields)
+		try {
+			const { user } = await createAuthUserWithEmailAndPassword(
+				email,
+				password
+			);
+
+			console.log(user);
+
+			await createUserDocumentFromAuth(user, { displayName });
+			resetFormFields();
+		} catch (error) {
+			if (error.code === "auth/email-already-in-use") {
+				alert("Cannot create user, email already in use");
+			} else {
+				console.log("user creation encountered an error", error);
+			}
+		}
 	};
 
-	const handleChange = (e) => {
-		const { name, value } = e.target;
+	const handleChange = (event) => {
+		const { name, value } = event.target;
 		setFormFields({ ...formFields, [name]: value });
-		// console.log(formFields)
 	};
+
+	const emailErrorMessage = "Please enter a valid email address.";
+	const passwordErrorMessage = "Password must be at least 8 characters long.";
+	const confirmPasswordErrorMessage = "Passwords do not match.";
 
 	return (
 		<div className="flex flex-col w-[500px]">
@@ -44,6 +69,7 @@ const SignUpForm = () => {
 					onChange={handleChange}
 					name="displayName"
 					value={displayName}
+					validationFn={(username) => checkUsername(username)}
 					required
 					autoComplete="off"
 				/>
@@ -53,16 +79,20 @@ const SignUpForm = () => {
 					onChange={handleChange}
 					name="email"
 					value={email}
+					validationFn={(value) => checkEmail(value)}
 					required
 					autoComplete="off"
 				/>
+
 				<FormInput
 					label="Password"
 					type="password"
 					onChange={handleChange}
 					name="password"
 					value={password}
+					validationFn={(password) => checkPassword(password)}
 					required
+					errorMessage={passwordErrorMessage}
 				/>
 				<FormInput
 					label="Confirm Password"
@@ -70,7 +100,11 @@ const SignUpForm = () => {
 					onChange={handleChange}
 					name="confirmPassword"
 					value={confirmPassword}
+					validationFn={(password, confirmPassword) =>
+						checkConfirmPassword(password, confirmPassword)
+					}
 					required
+					errorMessage={confirmPasswordErrorMessage}
 				/>
 
 				<Button type="submit">Sign Up</Button>

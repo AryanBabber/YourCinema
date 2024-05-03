@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "./firebaseConfig";
+
 import {
 	getAuth,
 	signInWithRedirect,
@@ -21,17 +21,9 @@ import {
 	query,
 	getDocs,
 } from "firebase/firestore";
-// import { getAnalytics } from "firebase/analytics";
-import { firebaseConfig } from "./firebaseConfig";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseApp = initializeApp(firebaseConfig);
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
 const googleProvider = new GoogleAuthProvider();
 
 googleProvider.setCustomParameters({
@@ -46,30 +38,45 @@ export const signInWithGooglePopup = () =>
 export const signInWithGoogleRedirect = () =>
 	signInWithRedirect(auth, googleProvider);
 
-export const database = getFirestore();
+export const db = getFirestore();
 
-export const addCollectionAndDocs = async (collKey, addedObjects, field) => {
-	const collRef = collection(database, collKey);
-	const batch = writeBatch(database);
+export const addCollectionAndDocuments = async (
+	collectionKey,
+	objectsToAdd,
+	field
+) => {
+	const collectionRef = collection(db, collectionKey);
+	const batch = writeBatch(db);
 
-	addedObjects.forEach((v) => {
-		const docRef = doc(collRef, v.title.toLowerCase());
-		batch.set(docRef, v);
+	objectsToAdd.forEach((object) => {
+		const docRef = doc(collectionRef, object.title.toLowerCase());
+		batch.set(docRef, object);
 	});
 
 	await batch.commit();
+	console.log("done");
 };
 
-// get categories from documents here
+export const getCategoriesAndDocuments = async () => {
+	const collectionRef = collection(db, "categories");
+	const q = query(collectionRef);
 
-export const createUserDocFromAuth = async (uAuth, additionalInfo = {}) => {
-	if (!uAuth) return;
+	const querySnapshot = await getDocs(q);
+	return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
+};
 
-	const userDocRef = doc(database, "users", uAuth.uid);
+export const createUserDocumentFromAuth = async (
+	userAuth,
+	additionalInformation = {}
+) => {
+	if (!userAuth) return;
+
+	const userDocRef = doc(db, "users", userAuth.uid);
+
 	const userSnapshot = await getDoc(userDocRef);
 
 	if (!userSnapshot.exists()) {
-		const { displayName, email } = uAuth;
+		const { displayName, email } = userAuth;
 		const createdAt = new Date();
 
 		try {
@@ -77,13 +84,14 @@ export const createUserDocFromAuth = async (uAuth, additionalInfo = {}) => {
 				displayName,
 				email,
 				createdAt,
-				...additionalInfo,
+				...additionalInformation,
 			});
 		} catch (error) {
-			alert("Error creating user. ", error.message);
+			console.log("error creating the user", error.message);
 		}
 	}
-	return userSnapshot;
+
+	return userDocRef;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -102,16 +110,3 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
 	onAuthStateChanged(auth, callback);
-
-export const getCurrentUser = () => {
-	return new Promise((resolve, reject) => {
-		const unsubscribe = onAuthStateChanged(
-			auth,
-			(userAuth) => {
-				unsubscribe();
-				resolve(userAuth);
-			},
-			reject
-		);
-	});
-};

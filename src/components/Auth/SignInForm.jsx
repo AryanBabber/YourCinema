@@ -1,12 +1,13 @@
 import { useState } from "react";
 
-import FormInput from "../FormInput";
+import FormInput from "../FormInput"; // Updated FormInput component
 import Button from "../Button";
 
 import {
 	signInAuthUserWithEmailAndPassword,
 	signInWithGooglePopup,
 } from "../../utils/firebase/firebase.utils";
+import { checkEmail, checkPassword } from "../../utils/auth/user.parameters";
 
 const defaultFormFields = {
 	email: "",
@@ -25,8 +26,10 @@ const SignInForm = () => {
 		try {
 			await signInAuthUserWithEmailAndPassword(email, password);
 			resetFormFields();
+			// Add success handling here (e.g., redirect to dashboard)
 		} catch (error) {
 			console.log("user sign in failed", error);
+			// Add error handling here (e.g., display error message)
 		}
 	};
 
@@ -35,6 +38,9 @@ const SignInForm = () => {
 
 		setFormFields({ ...formFields, [name]: value });
 	};
+
+	const emailErrorMessage = "Please enter a valid email address.";
+	const passwordErrorMessage = "Password must be at least 8 characters long."; // Update as needed
 
 	return (
 		<div className="flex flex-col w-[500px]">
@@ -46,8 +52,10 @@ const SignInForm = () => {
 					onChange={handleChange}
 					name="email"
 					value={email}
+					validationFn={email => checkEmail(email)}
 					required
 					autoComplete="off"
+					errorMessage={emailErrorMessage}
 				/>
 				<FormInput
 					label="Password"
@@ -55,10 +63,20 @@ const SignInForm = () => {
 					onChange={handleChange}
 					name="password"
 					value={password}
+					validationFn={password => checkPassword(password)}
 					required
+					errorMessage={passwordErrorMessage}
 				/>
 
-				<Button type="submit">Sign In</Button>
+				<div className="flex gap-6">
+					<Button type="submit">Sign In</Button>
+					<Button
+						type="button"
+						onClick={signInWithGoogle}
+					>
+						Sign In with Google
+					</Button>
+				</div>
 			</form>
 		</div>
 	);

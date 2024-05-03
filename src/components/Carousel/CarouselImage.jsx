@@ -64,9 +64,9 @@ const CarouselImage = ({ slides }) => {
 		setCurrentIndex(slideIndex);
 	};
 
-	// setTimeout(() => {
-	// 	goToNext();
-	// }, 10000);
+	setTimeout(() => {
+		goToNext();
+	}, 10000);
 
 	const slideStylesWidthBackground = {
 		...slideStyles,

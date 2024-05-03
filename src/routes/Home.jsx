@@ -51,10 +51,10 @@ const Home = () => {
 			) : (
 				<div>
 					<Outlet />
-					<div className="flex flex-col gap-5">
+					<div className="flex flex-col gap-5 ml-5 mr-10 my-10">
 						<Carousel />
 						{isSignedIn && (
-							<div className="ml-5">
+							<div>
 								<h2 className="text-xl font-bold">
 									Based on your liking:
 								</h2>
@@ -74,18 +74,18 @@ const Home = () => {
 								</ul>
 							</div>
 						)}
-						<div className="ml-5">
+						<div className="">
 							<Link
 								to="/trending-movies"
 								className="text-xl font-bold"
 							>
 								Trending Movies 〉
 							</Link>
-							<div className="flex gap-5">
+							<div className="flex gap-5 overflow-hidden">
 								{data &&
 									data.results.slice(0, 5).map((v, i) => (
 										<div
-											className="border-2 border-slate-500 w-[350px] h-[500px] rounded-xl"
+											className="border-2 border-slate-500 min-w-[320px] w-[320px] h-[500px] rounded-xl"
 											key={i}
 										>
 											<img
@@ -97,14 +97,12 @@ const Home = () => {
 									))}
 							</div>
 						</div>
-						{genres
-							.slice(randomNum, randomNum + 3)
-							.map((genre, index) => (
-								<MovieList
-									key={index}
-									{...genre}
-								/>
-							))}
+						{genres.slice(6, 9).map((genre, index) => (
+							<MovieList
+								key={index}
+								{...genre}
+							/>
+						))}
 					</div>
 				</div>
 			)}
