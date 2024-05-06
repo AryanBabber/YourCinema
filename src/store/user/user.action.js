@@ -19,7 +19,8 @@ const {
 export const setCurrentUser = (user) => createAction(SET_CURRENT_USER, user);
 export const checkUserSession = () => createAction(CHECK_USER_SESSION);
 export const googleSignInStart = () => createAction(GOOGLE_SIGN_IN_START);
-export const emailSignInStart = () => createAction(EMAIL_SIGN_IN_START);
+export const emailSignInStart = (email, password) =>
+	createAction(EMAIL_SIGN_IN_START, { email, password });
 export const signInSuccess = (user) => createAction(SIGN_IN_SUCCESS, user);
 export const signInFailed = (error) => createAction(SIGN_IN_FAILED, error);
 export const signUpStart = (email, password, displayName) =>

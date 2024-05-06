@@ -3,11 +3,14 @@ import { useState } from "react";
 import FormInput from "../FormInput"; // Updated FormInput component
 import Button from "../Button";
 
-import {
-	signInAuthUserWithEmailAndPassword,
-	signInWithGooglePopup,
-} from "../../utils/firebase/firebase.utils";
+// import {
+// 	signInAuthUserWithEmailAndPassword,
+// 	signInWithGooglePopup,
+// } from "../../utils/firebase/firebase.utils";
+
+import { googleSignInStart, emailSignInStart } from "../../store/user/user.action";
 import { checkEmail, checkPassword } from "../../utils/auth/user.parameters";
+import { useDispatch } from "react-redux";
 
 const defaultFormFields = {
 	email: "",
@@ -15,21 +18,26 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
+	const dispatch = useDispatch();
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const { email, password } = formFields;
 
-	const resetFormFields = () => setFormFields(defaultFormFields);
-	const signInWithGoogle = async () => await signInWithGooglePopup();
+	const resetFormFields = () => {
+		setFormFields(defaultFormFields);
+	};
+
+	const signInWithGoogle = async () => {
+		dispatch(googleSignInStart());
+	};
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
 		try {
-			await signInAuthUserWithEmailAndPassword(email, password);
+			dispatch(emailSignInStart(email, password));
 			resetFormFields();
-			// Add success handling here (e.g., redirect to dashboard)
 		} catch (error) {
 			console.log("user sign in failed", error);
-			// Add error handling here (e.g., display error message)
 		}
 	};
 
@@ -52,7 +60,7 @@ const SignInForm = () => {
 					onChange={handleChange}
 					name="email"
 					value={email}
-					validationFn={email => checkEmail(email)}
+					validationFn={(email) => checkEmail(email)}
 					required
 					autoComplete="off"
 					errorMessage={emailErrorMessage}
@@ -63,7 +71,7 @@ const SignInForm = () => {
 					onChange={handleChange}
 					name="password"
 					value={password}
-					validationFn={password => checkPassword(password)}
+					validationFn={(password) => checkPassword(password)}
 					required
 					errorMessage={passwordErrorMessage}
 				/>

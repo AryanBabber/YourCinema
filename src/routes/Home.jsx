@@ -11,12 +11,14 @@ import {
 import Loader from "../components/Loader";
 import { genres } from "../utils/movies/movies.genres";
 import MovieList from "../components/MovieList";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../store/user/user.selector";
 
 const Home = () => {
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(null);
 	const [page, setPage] = useState(PAGE_NUMBER);
-	let isSignedIn = false;
+	let isSignedIn = useSelector(selectCurrentUser);
 	// const navigate = useNavigate()
 	let randomNum = Math.floor(Math.random() * 17);
 	useEffect(() => {
@@ -53,25 +55,31 @@ const Home = () => {
 					<Outlet />
 					<div className="flex flex-col gap-5 ml-5 mr-10 my-10">
 						<Carousel />
-						{isSignedIn && (
+						{!isSignedIn && (
 							<div>
-								<h2 className="text-xl font-bold">
+								<Link
+									to="/bookmarks"
+									className="text-xl font-bold"
+								>
 									Based on your liking:
-								</h2>
-								<ul className="flex gap-5">
-									<li className="w-[300px] h-[80px] border-2 border-slate-500">
-										Movie1
-									</li>
-									<li className="w-[300px] h-[80px] border-2 border-slate-500">
-										Movie2
-									</li>
-									<li className="w-[300px] h-[80px] border-2 border-slate-500">
-										Movie3
-									</li>
-									<li className="w-[300px] h-[80px] border-2 border-slate-500">
-										Movie4
-									</li>
-								</ul>
+								</Link>
+								<div className="flex gap-5 overflow-hidden">
+									{data &&
+										data.results.slice(15).map((v, i) => (
+											<div
+												className="border-2 border-slate-500 min-w-[320px] w-[320px] h-[500px] rounded-xl"
+												key={i}
+											>
+												<img
+													src={
+														IMGPATH + v.poster_path
+													}
+													alt={v.title}
+													className="h-full w-full"
+												/>
+											</div>
+										))}
+								</div>
 							</div>
 						)}
 						<div className="">

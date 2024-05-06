@@ -8,6 +8,9 @@ import { SEARCH_API, IMGPATH } from "../utils/movies/movies.utils";
 // import { setData, getData, movieData } from "../utils/search/searchData";
 import { useState } from "react";
 import { setData, getData, data } from "../utils/search/searchData";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentUser } from "../store/user/user.selector";
+import { signOutStart } from "../store/user/user.action";
 
 const Navigation = () => {
 	// const [data, setData] = useState(null);
@@ -28,8 +31,12 @@ const Navigation = () => {
 		}
 	};
 
-	console.log(getData());
-	console.log(data);
+	// console.log(getData());
+	// console.log(data);
+	const dispatch = useDispatch();
+	const currentUser = useSelector(selectCurrentUser);
+
+	const signOutUser = () => dispatch(signOutStart());
 
 	return (
 		<Fragment>
@@ -58,20 +65,34 @@ const Navigation = () => {
 					</Link>
 
 					{/* if signed out: */}
-					<div className="flex gap-1 items-center justify-center">
-						<Link
-							to="/sign-in"
-							className="w-[150px] h-[50px] flex items-center justify-center"
-						>
-							<h2 className="">EXISTING USER?</h2>
-						</Link>
-						<Link
-							to="/sign-up"
-							className="w-[100px] h-[50px] bg-[#3f3f3f] rounded-[20px] flex items-center justify-center"
-						>
-							<h2 className="text-center text-white">SIGN UP</h2>
-						</Link>
-					</div>
+					{currentUser ? (
+						<div className="flex gap-1 items-center justify-center">
+							<Link
+								as="span"
+								onClick={signOutUser}
+								className="w-[150px] h-[50px] flex items-center justify-center"
+							>
+								SIGN OUT
+							</Link>
+						</div>
+					) : (
+						<div className="flex gap-1 items-center justify-center">
+							<Link
+								to="/sign-in"
+								className="w-[150px] h-[50px] flex items-center justify-center"
+							>
+								<h2 className="">EXISTING USER?</h2>
+							</Link>
+							<Link
+								to="/sign-up"
+								className="w-[100px] h-[50px] bg-[#3f3f3f] rounded-[20px] flex items-center justify-center"
+							>
+								<h2 className="text-center text-white">
+									SIGN UP
+								</h2>
+							</Link>
+						</div>
+					)}
 				</div>
 			</div>
 			<Outlet />
