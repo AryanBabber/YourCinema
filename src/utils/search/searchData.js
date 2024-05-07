@@ -1,4 +1,4 @@
-export let data = [];
+export let data;
 
 export const setData = (d) => {
 	data = d;

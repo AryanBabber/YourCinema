@@ -13,7 +13,7 @@ export const UPCOMING_URI = `https://api.themoviedb.org/3/movie/upcoming?languag
 console.log(UPCOMING_URI);
 
 // check the genres file within this directory for genreID
-export const getMoviesByGenre = async (genreId, maxLen = 20) => {
+export const getMoviesByGenre = async (genreId, maxLen = 20, URI = API_URI) => {
 	let arr = [];
 	let seen = new Set();
 	// let pageNo = PAGE_NUMBER;
@@ -38,7 +38,8 @@ export const getMoviesByGenre = async (genreId, maxLen = 20) => {
 
 	// 	PAGE_NUMBER++;
 	// }
-	let iterAPI = API_URI.split("&page")[0];
+	let iterAPI = URI.split("&page")[0];
+	console.log(iterAPI);
 	for (let page = 1; arr.length < maxLen; page++) {
 		const response = await fetch(`${iterAPI}&page=${page}`);
 		const data = await response.json();
@@ -106,4 +107,19 @@ export const releaseDateFormat = (releaseDate) => {
 	let year = releaseDate.split("-")[0];
 
 	return `${month} ${day}, ${year}`;
+};
+
+export const searchMovies = async (movieName) => {
+	const searchURI = SEARCH_API + movieName;
+	try {
+		const res = await fetch(searchURI);
+		if (!res.ok) {
+			throw new Error(`Network response was not ok: ${res.status}`);
+		}
+		const data = await res.json();
+		return data.results;
+	} catch (error) {
+		console.error("Error fetching movies:", error);
+		// Handle the error appropriately, e.g., display an error message to the user
+	}
 };

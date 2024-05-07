@@ -8,6 +8,9 @@ import { Route, Routes, Router } from "react-router-dom";
 import TrendingMovies from "./routes/TrendingMovies";
 import { genres } from "./utils/movies/movies.genres";
 import MovieGenre from "./routes/MovieGenre";
+import SearchPage from "./routes/SearchPage";
+import SearchMovies from "./routes/SearchMovies";
+import { data, getData } from "./utils/search/searchData";
 
 const App = () => {
 	return (
@@ -43,12 +46,14 @@ const App = () => {
 								<Route
 									key={genre.genreId}
 									path={`/${genre.route}`}
-									element={
-										<MovieGenre {...genre} />
-									}
+									element={<MovieGenre {...genre} />}
 								/>
 							)
 					)}
+					<Route
+						path="/search/:searchTerm"
+						element={<SearchPage />}
+					/>
 				</Route>
 			</Routes>
 		</div>

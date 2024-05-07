@@ -13,6 +13,7 @@ import { genres } from "../utils/movies/movies.genres";
 import MovieList from "../components/MovieList";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../store/user/user.selector";
+import SearchMovies from "./SearchMovies";
 
 const Home = () => {
 	const [loading, setLoading] = useState(false);
